@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDgfXY8d5DbBy9Ocsh_89z_Wqn2hsQaJkg",
+    authDomain: "fir-database-f826c.firebaseapp.com",
+    databaseURL: "https://fir-database-f826c.firebaseio.com",
+    projectId: "fir-database-f826c",
+    storageBucket: "fir-database-f826c.appspot.com",
+    messagingSenderId: "329958230806",
+    appId: "1:329958230806:web:9e27eb592493a1a2f0de37",
+    measurementId: "G-LDXXTWD6BS"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<style>
+  body
+  {
+   
+    background-image: url('image.jpg');
+           background-position:center;
+           background-repeat: no-repeat;
+           background-size:cover;
+           background-attachment: fixed;
+  }
+  #one
+  {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:flex-end;
+    flex-wrap: wrap;
+   
+    
+  }
+  #a
+  {
+          font-size: 23px;
+          font-family: sans-serif;
+          font-weight: bolder;
+          color: rgba(38, 39, 39, 0.664);
+         margin-left: -380px;
+         margin-bottom:-30px ;
+  }
+  #a2
+  {
+    font-size: 23px;
+          font-family: sans-serif;
+          font-weight: bolder;
+          color: rgba(38, 39, 39, 0.664);
+          margin-left: -410px;
+         margin-bottom:-30px ;
+  }
+  #a3
+  {
+          font-size: 23px;
+          font-family: sans-serif;
+          font-weight: bolder;
+          color: rgba(38, 39, 39, 0.664);
+          margin-left: -400px;
+          margin-bottom:-0px ;
+  }
+  #name,#number
+
+  {
+    width: 240px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: rgba(205, 241, 234, 0.527);
+    font-size: 20px;
+    font-family: 'Lora', serif;
+    border-color: gray;
+    border:none;
+    border-bottom: 1px solid grey;
+    outline:none;
+  }
+  #address
+  {
+    border-radius: 20px;
+    background-color: rgba(205, 241, 234, 0.527);
+    font-size: 20px;
+    font-family: 'Lora', serif;
+    border-color: gray;
+    border:none;
+    border-bottom: 1px solid grey;
+    outline:none;
+  }
+  #two
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 400px;
+    margin-top:40px;
+  }
+  #submit
+  {
+        background-color: rgba(197, 195, 195, 0.575);
+        width: 130px;
+        height: 39px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 4px;
+        outline: none;
+        border:1px solid rgba(197, 195, 195, 0.575);
+        color: rgb(53, 52, 52);
+  }
+  #submit:hover
+  {
+    color: rgba(197, 195, 195, 0.938);
+    background-color: rgba(53, 52, 52, 0.527);
+  }
+  #zero,#three
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -30px;
+    
+  }
+  #h2,#h2_2
+  {
+    font-family: 'Syne', sans-serif;
+    color: rgb(50, 54, 54);
+    font-size: 35px;
+  }
+  #h1
+  {
+    font-family: 'Oswald', sans-serif;
+    color: wheat;
+    font-size: 40px;
+  }
+  #number_search
+  {
+    border-radius: 20px;
+    background-color: rgba(184, 187, 190, 0.555);
+    font-size: 20px;
+    font-family: 'Lora', serif;
+    border-color: gray;
+    border:none;
+    border-bottom: 1px solid grey;
+    outline:none;
+    width: 240px;
+    height: 40px;
+  }
+  #search
+  {
+        background-color: rgba(197, 195, 195, 0.575);
+        width: 80px;
+        height: 30px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 4px;
+        outline: none;
+        border:1px solid rgba(197, 195, 195, 0.575);
+        color: rgba(0, 0, 0, 0.883);
+        margin-left: 30px;
+  }
+  #search:hover
+  {
+    color: rgba(197, 195, 195, 0.938);
+    background-color: rgba(53, 52, 52, 0.527);
+  }
+  #four
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+     visibility: hidden;
+  }
+  #four>a
+  {
+    color:rgba(243, 232, 232, 0.863);
+    font-family: cursive;
+    font-size:20px;
+    
+  }
+#five
+{
+  display: flex;
+  flex-direction: column;
+  margin-top: -130px;
+  visibility: hidden;
+  align-items: center;
+  justify-content: center;
+}
+#error
+{
+  font-family: serif;
+  font-weight: 800;
+font-size: 28px;
+color: rgba(214, 43, 43, 0.911);
+
+}
+#six
+{
+  display: flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content: center;
+  
+}
+
+@media screen and (max-width: 540px)
+{
+  #one
+  {
+    margin-left: 103px;
+    
+    width:100%;
+  }
+    #address
+    {
+      width: 360px;
+    }
+    #h2,#h2_2
+    {
+      font-size: 25px;
+      
+    }
+    #zero,#three
+    {
+    
+    margin-left: 80px;
+    }
+    #six
+    {
+      margin-left: 60px;
+    }
+    #two
+    {
+      margin-left: 100px;
+    }
+    #name,#number
+    {
+      margin-left: -50px;
+    }
+    #address
+    {
+      width: 350px;
+      margin-left: -90px;
+    }
+
+}
+</style>
+
+</head>
+<body>
+  <center>
+    <div id="zero">
+      <h2 id="h2">Regestred your Self</h2>
+    </div>
+    <div id="one">
+  
+  <a id="a">
+    Name
+  </a>
+  <input type="text" id="name"spellcheck="false">
+  <br><br>
+  <a id="a2">
+   Phone No:
+  </a>
+  <input type="number" id="number" spellcheck="false">
+  <br><br>
+  <a id="a3">
+    Address
+  </a>
+  <textarea id="address"spellcheck="false" cols="40" rows=6 ></textarea>
+</div>
+<div id="two">
+<button onclick="a()" id="submit">Submit</button><br>
+</div> 
+
+<div id="three"><br>
+  <h1 id="h1">OR</h1><br>
+  <h2 id="h2_2">Search Through Your Number</h2>
+</div>
+<div id='six'>
+<input type="number" id="number_search">
+<button onclick="b()" id="search">Search</button>
+</div> 
+<div id="four">
+  <a>Name:</a>
+  <a id="show"></a><br>
+  <a>Number:</a>
+  <a id="show2"></a><br>
+  <a>Address:</a>
+  <a id="show3"></a><br>
+  
+</div>
+<div id="five">
+  <p id="error">a</p>
+</div>
+</center>
+
+</body>
+<script>
+  var final_data;
+  function a()
+  {
+  var name=document.getElementById('name').value;
+  var number=document.getElementById('number').value;
+  var address=document.getElementById('address').value;
+ 
+  
+      var object={
+        Name:name,
+        Number:number,
+        address:address
+        }
+    
+    var database= firebase.database().ref('record');
+    database.child(`record of this Number ${object.Number}`).set(object)
+    var name=document.getElementById('name').value="";
+  var number=document.getElementById('number').value="";
+  var address=document.getElementById('address').value="";  
+  
+      }
+
+
+
+      function b()
+      {
+        document.getElementById('five').style.visibility='hidden';
+        document.getElementById('four').style.visibility='hidden';
+        var number_search= document.getElementById('number_search').value;
+        var database= firebase.database().ref('record').child(`record of this Number ${number_search}`);
+
+
+        var promise = new Promise(function(resolve,reject){
+
+         database.on('value',function(data){
+          final_data=data.val();
+        
+            // console.log(final_data.Name);
+          if(data.val())
+          { 
+
+            resolve(final_data);
+       
+          }
+          else
+          {
+          reject(`Your are not Regestred .First Regester Your self`);
+          }
+          
+        })
+        })
+       promise.then(function (da)
+       {
+         console.log(da.Name)
+       var a= document.getElementById('show');
+       var a2= document.getElementById('show2');
+       var a3= document.getElementById('show3');
+        a.innerHTML=`&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ${da.Name}`
+        a2.innerHTML=`&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ${da.Number}`
+        a3.innerHTML=`&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ${da.address}`
+       document.getElementById('four').style.visibility='visible';
+         console.log(a)
+       }) 
+       .catch(function(er){
+         console.log(er)
+      document.getElementById('error').innerHTML=er;
+       document.getElementById('five').style.visibility='visible';
+       })       
+
+      }
+
+</script>
+</html>

@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+   <title>App Injection</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+
+
+
+    <style>
+        body{background-color: #1D1D27;}
+        #text
+        {
+            font-size:30px ;
+            color: cornsilk;
+            margin-top: 0px;
+        }
+        .list-group-item
+        {
+        background-color:#1D1D27 ;
+        height: 70px !important;
+        border: -4px double grey !important
+        
+        }
+        a
+        {
+            text-decoration: none !important;
+            color:#E7E7E8;
+            margin-top: 4px;
+        
+        }
+        a:hover
+        {
+            color:#E7E7E8  !important;
+        }
+        span
+        {
+          position: relative;top: -20px;
+          font-size: 13px;
+          font-weight: bold;
+        }
+        #second
+        {
+            position: relative;left:55px;top:-35px;width:300px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+        #third
+        {
+            position: relative;left:55px;top:-55px;width:500px;
+            font-size: 13px;
+        }
+
+
+
+        .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0; 
+        left: 0;
+        right: 0;
+        /* background: rgba(150, 20, 20, 0.7); */
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+        
+        }
+        .overlay:target {
+        visibility: visible;
+        opacity: 1;
+        }
+        
+        .popup {
+        /* margin: 70px auto; */
+        /* padding: 20px; */
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        /* position: relative; */
+        transition: all 5s ease-in-out;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction:row;
+        
+        }
+        
+        /* .popup h2 {
+        margin-top: 0;
+        color: #333;
+        font-family: Tahoma, Arial, sans-serif;
+        } */
+        .popup .close {
+        position: absolute;
+        top: 6px;
+        left: 20px;
+        transition: all 200ms;
+        font-size: 36px;
+        font-weight: bold;
+        text-decoration: none;
+        color:#FFFFFF;
+        }
+        
+        /* .popup .content {
+        /* max-height: 30%;
+        overflow: auto; */
+        /* }  */
+        
+        
+        /* @media screen and (max-width: 700px){
+        .box{
+        width: 70%;
+        }
+        .popup{
+        width: 100%;
+        }
+        } */
+
+        #one
+        {
+           width: 100%;
+           /* height: 40%; */
+           background-color: #FF9500;
+           display: flex;
+           justify-content: center;
+           /* background: rgba(0, 0, 0, 0.7); */
+        }
+        #two
+        {
+           width: 100%;
+           height: 100%;
+           background-color: #1D1D27;
+           display: flex;
+         justify-content:flex-start;
+           align-items: center;
+           flex-direction:column;
+           
+        }
+        #button
+        {
+           background-color: #FF9500;
+           width: 99%;
+           color: white;
+           border-radius: 40px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           text-decoration: none;
+           height: 45px;
+           cursor: pointer;
+        }
+        #inner
+        {
+           width: 400px;
+           background-color: white;
+           height: 160px;
+           position: relative;
+           top: -10px;
+           border-radius: 20px;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           visibility:hidden;
+
+        }
+        #process
+        {
+           color:#858585;
+           font-size:19px;
+        }
+
+
+ /* /* loader start * */
+
+ .lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  visibility: hidden;
+  bottom:40px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgb(11, 131, 190);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+  
+
+  /* loader end */
+ 
+ 
+ 
+    </style>
+</head>
+<body>
+    
+    
+           <br><br><br>
+        <div style=" display: flex;justify-content: center;" >
+            <center>
+            <img src="images/ignitionLogo.svg" width=80px">
+            <p id="text">iTweak</p>
+        </center>    
+        </div>
+
+    <div>
+        <ul class="list-group">
+
+           <a href="#popup2">
+               <li class="list-group-item">
+                   <img src="images/1.png">
+                  &nbsp <span>8 Ball Pool team</span>
+                  <p id="second">Ball Pool</p>
+                  <p id="third">Unlimited Premium Subscription</p>
+               </li>
+            </a>
+
+            <a href="#popup2" onclick=" b('images/2.png')">
+                <li class="list-group-item">
+                    <img src="images/2.png">
+                   &nbsp <span>Xapple Team</span>
+                   <p id="second">Apple Music Injector</p>
+                   <p id="third">Unlimited Premium Subscription.</p>
+                </li>
+             </a>
+        
+                 
+             
+            <a href="#popup2"onclick=" b('images/3.png')">
+                <li class="list-group-item">
+                    <img src="images/3.png">
+                   &nbsp <span>Spotify Team</span>
+                   <p id="second">Spotify++</p>
+                   <p id="third">Free Spotify Premium</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/4.png')">
+             <li class="list-group-item">
+                <img src="images/4.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Appstore++</p>
+                   <div>
+                   <p id="third">Appstore++ IOS [UID Emulator]</p>
+                </div>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/5.png')">
+             <li class="list-group-item">
+                <img src="images/5.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Minecraft Java</p>
+                   <p id="third">iOS & Android Download</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/6.png')">
+             <li class="list-group-item">
+                <img src="images/6.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Minecraft Dungeons</p>
+                   <p id="third">iOS & Android Download</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/7.png')">
+             <li class="list-group-item">
+                <img src="images/7.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">PlayStore++</p>
+                   <p id="third">Playstore++ IOS/Android </p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/8.png')">
+             <li class="list-group-item">
+                <img src="images/8.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">CotoMovies++</p>
+                   <p id="third">CotoMovies Premium</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/9.png')">
+             <li class="list-group-item">
+                <img src="images/9.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Mediabox HD</p>
+                   <p id="third">Mediabox HD VIP</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/10.png')">
+             <li class="list-group-item">
+                <img src="images/10.png">
+                   &nbsp <span>TutuApp Team</span>
+                   <p id="second">TutuApp VIP</p>
+                   <p id="third">Free VIP</p>
+                </li>
+             </a>
+             
+             <a href="#popup2"onclick=" b('images/11.png')">
+             <li class="list-group-item">
+                <img src="images/11.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Google Forms++</p>
+                   <p id="third">iOS & Android</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/12.png')">
+                <li class="list-group-item">
+                    <img src="images/12.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Roblox++</p>
+                   <p id="third">iOS & Android</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/13.png')">
+                <li class="list-group-item">
+                    <img src="images/13.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Panda Helper VIP</p>
+                   <p id="third">Free Panda Helper VIP</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/14.png')">
+                <li class="list-group-item">
+                    <img src="images/14.png">
+                   &nbsp <span>Patcher Team</span>
+                   <p id="second">Lucky Patcher</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/15.png')">
+                <li class="list-group-item">
+                    <img src="images/15.png">
+                   &nbsp <span>GTA Team.</span>
+                   <p id="second">GTA 5</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/16.png')">
+                <li class="list-group-item">
+                    <img src="images/16.png">
+                   &nbsp <span>GTA Team.</span>
+                   <p id="second">GTA 4</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/17.png')">
+                <li class="list-group-item">
+                    <img src="images/17.png">
+                   &nbsp <span>GTA Team.</span>
+                   <p id="second">GTA San Andreas</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+             
+            <a href="#popup2"onclick=" b('images/18.png')">
+                <li class="list-group-item">
+                    <img src="images/18.png"width="39px">
+                   &nbsp <span>Moviebox Team</span>
+                   <p id="second">Moviebox Pro</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/19.png')">
+                <li class="list-group-item">
+                    <img src="images/19.png">
+                   &nbsp <span>Moviebox Pro</span>
+                   <p id="second">Showbox</p>
+                   <p id="third">MovieboxPro VIP(New Showbox)</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/20.png')">
+                <li class="list-group-item">
+                    <img src="images/20.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Tweakbox ++</p>
+                   <p id="third">Custom Server + Anti Revoke</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/21.png')">
+                <li class="list-group-item">
+                    <img src="images/21.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">PPSSPP V3</p>
+                   <p id="third">PPSSPP Latest + Anti Revoke</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/22.png')">
+                <li class="list-group-item">
+                    <img src="images/22.png">
+                   &nbsp <span>Pokemon Team</span>
+                   <p id="second">Pokemon GO++</p>
+                   <p id="third">Prokemon Go Spoofer + Anti-Ban</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/23.png')">
+                <li class="list-group-item">
+                    <img src="images/23.png">
+                   &nbsp <span>Megabox Team</span>
+                   <p id="second">Megabox HD</p>
+                   <p id="third">No Jailbreak,Root Required</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/24.png')">
+                <li class="list-group-item">
+                    <img src="images/24.png"width="39px">
+                   &nbsp <span>Megabox Team</span>
+                   <p id="second">PS Booter</p>
+                   <p id="third">iOS&Android(AllPlayStations)</p>
+                </li>
+             </a>
+
+             <a href="#popup2"onclick=" b('images/25.png')">
+                <li class="list-group-item">
+                    <img src="images/25.png">
+                   &nbsp <span>PT Team</span>
+                   <p id="second">Popcorn Time</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/26.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Tinder++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/27.png">
+                   &nbsp <span>Disney Team</span>
+                   <p id="second">Disney+</p>
+                   <p id="third">Free Disney Plus</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/28.png"width="39px">
+                   &nbsp <span>Disney Team</span>
+                   <p id="second">Monkey++</p>
+                   <p id="third">Money APP (iOS & Android)</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/29.png"width="39px">
+                   &nbsp <span>Minecraft Team</span>
+                   <p id="second">Minecraft</p>
+                   <p id="third">Free Download & Mods</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/30.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">OnlyFans++</p>
+                   <p id="third">Access All Content for Free</p>
+                </li>
+             </a>
+
+             
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/31.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">FaceID++</p>
+                   <p id="third">Unlock Face ID</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/32.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">VBooter</p>
+                   <p id="third">Unlimited Premium </p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item"width="39px">
+                    <img src="images/33.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Omegle++</p>
+                   <p id="third">Omegle Mobile (Video enabled)</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/34.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">CyberflixTV</p>
+                   <p id="third">No Jailbrek or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/35.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">WiFi Passwords</p>
+                   <p id="third">Expose nearby WiFi Passwords</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/36.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">PortraitMode</p>
+                   <p id="third">Unlock portait mode</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/37.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Mondly++</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/38.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">TikTok++</p>
+                   <p id="third">No Jailbreak,Root Required</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/39.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Deezer++</p>
+                   <p id="third">Deezer Premium Unlocked</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/40.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Happy Chick</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/41.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">BoxLoca</p>
+                   <p id="third">Watch Free Movies & TV Shows</p>
+                </li>
+             </a>
+
+             
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/42.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Coin Masters++p>
+                   <p id="third">iOS & Android</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/43.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Tor VPN iOS</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/44.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Deepnude V3</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/45.png">
+                   &nbsp <span>iSnow Team</span>
+                   <p id="second">Cydia Jailbreak</p>
+                   <p id="third">Cydia Rootjack (IOS 12 & 13)</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/46.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Grindr++</p>
+                   <p id="third">Free Grindr XTRA</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/47.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Pandora++</p>
+                   <p id="third">Free Pandora Premium</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/48.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">iGame Guardian</p>
+                   <p id="third">Memory Editor for iOS</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/49.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Yubo++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#popup2">
+                <li class="list-group-item">
+                    <img src="images/50.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Memoji++</p>
+                   <p id="third">Memoji For Any Device</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/51.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Animoji++</p>
+                   <p id="third">Animoji For Any Device</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/52.png">
+                   &nbsp <span>8 Ball Pool team</span>
+                   <p id="second">Tweakbox ++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/53.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Videostar++</p>
+                   <p id="third">Custom Server + Anti Revoke</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/54.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Adorable Home++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/55.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">HappyMod++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/56.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Apple Arcade++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/57.png" width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Yee++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/58.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Chegg++</p>
+                   <p id="third">Yee for iOS</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/59.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">My Story:Choose Your Own Path++</p>
+                   <p id="third">See & Unblur Answers</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/60.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Snapchat++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/61.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Cinema HD++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/62.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Aptoide</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/63.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Dazz Cam++ -Vintage Camera</p>
+                   <p id="third">Premium Subscription</p>
+                </li>
+             </a>
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/64.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Pornhub++</p>
+                   <p id="third">Free Pornhub Premium Unlocked</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/65.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Brazzers++</p>
+                   <p id="third">Free Brazzers Premium Unlocked</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/66.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Netflix++</p>
+                   <p id="third">Free Netflix (Ultra HD) & More</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/67.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Discord++</p>
+                   <p id="third">Free Discord Nitro & More</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/68.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Cash App++</p>
+                   <p id="third">Cash App++ (Phantom V3.1)</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/69.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Last Day on Earth:Survival++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/70.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Dream League Soccer 2020++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/71.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">WhatsApp++</p>
+                   <p id="third">WhatsApp++ Phantom V2.0</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/72.png"width="39px">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Subway Surfers++</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/73.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">True Skate</p>
+                   <p id="third">Free Download Mods Included</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/74.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Enlight Pixaloop</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/75.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Youtube++</p>
+                   <p id="third">No Jailbreak Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/76.png">
+                   &nbsp <span>FaceApp Inc</span>
+                   <p id="second">FaceApp Pro</p>
+                   <p id="third">Unlock pro for free</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/77.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Yolo++</p>
+                   <p id="third">Reveal All Usernames</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/78.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Archero++</p>
+                   <p id="third">Unlimited Gems,Damage,Health</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/79.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Instagram++</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/80.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Alight Motion++</p>
+                   <p id="third">No Jailbreak or Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/81.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">NBA Live</p>
+                   <p id="third">NBA League Pass Unlocked</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/82.png">
+                   &nbsp <span>Facetune Team</span>
+                   <p id="second">FaceTune</p>
+                   <p id="third">Free Download</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/83.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">GPS Cheat</p>
+                   <p id="third">No Jailbreak,Root Required</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/84.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">UpCloud</p>
+                   <p id="third">Upload songs to SoundCloud</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/85.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Bloons TD 6</p>
+                   <p id="third">Free Download With Mods</p>
+                </li>
+             </a>
+             <a href="https://smarturl.it/geo_seperator?aff_sub5=Tweakbox">
+                <li class="list-group-item">
+                    <img src="images/86.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">Crunchyroll++</p>
+                   <p id="third">Custom Server + Anti Revoke</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/87.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">iPlayTV</p>
+                   <p id="third"> Premium Subscription</p>
+                </li>
+             </a>
+
+             <a href="#3">
+                <li class="list-group-item">
+                    <img src="images/88.png">
+                   &nbsp <span>iTweak Team</span>
+                   <p id="second">RecordMyCall</p>
+                   <p id="third">Unlimited Premium Subscription</p>
+                </li>
+             </a>
+
+            
+    </div>
+   
+    <div id="popup2" class="overlay">
+      <div class="popup">
+      <a class="close" href="#">&times;</a>
+      <div id="one">
+         
+         <img src="images/phone.png">
+
+         <div style=" position: relative;right:185px;top:65px;border-radius: 10px; height: 50px;">
+         <img src="images/1.png" id="child" style="border-radius: 10px; width: 35px;" >
+      </div>
+
+      </div>
+
+      <div id="two">
+         <br><br><br>
+             <p style="color: white; font-size: 25px; font-weight: bold;">
+                Injection required!
+            </p>
+            <p style="color: white; font-size: 15px;">
+               Follow the instructions on the next screen.
+            </p>
+            <a id="button"  onclick="a()">START INJECTION</a>
+            <div id="visi" style="width: 100%; height: 100%;background: rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed;top: 0; visibility: hidden;">
+            <div id="inner">
+                  <p style="color:black; font-size: 21px;">Injecting...</p>
+                  <p id="process"></p>
+                  <div class="lds-ellipsis" id="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+            </div>
+         </div>
+      </div>
+   
+     
+      </div>
+      </div>
+
+
+</body>
+
+
+      
+<script>
+   function a()
+   {  
+      var b="Connecting up with your phone";
+      
+      document.getElementById("lds-ellipsis").style.visibility="visible";     
+      document.getElementById("inner").style.visibility="visible";
+      document.getElementById("visi").style.visibility="visible";
+     var a=  document.getElementById("process");
+     a.innerHTML=b;
+     setTimeout("c()",3000);
+   }
+   function c()
+   {
+      document.getElementById("process").innerHTML="Downloading........";
+      setTimeout("d()",4000);
+   }
+   function d()
+   {
+      document.getElementById("process").innerHTML="Unpacking";
+      setTimeout("e()",3000);
+   }
+   function e()
+   {
+      document.getElementById("process").innerHTML="Start Injecting";
+      setTimeout("f()",3000);
+   }
+   function f()
+   {
+      document.getElementById("process").innerHTML="Final up Stage";
+      setTimeout("g()",3000);
+   }
+   function g()
+   {
+      window.location="index.html"
+   }
+   function b(a)
+   {
+      document.getElementById("child").src=a;
+   }
+   
+</script>
+
+</html>

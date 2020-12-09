@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        body:before
+        {  
+            content: '';
+           background-image: url('back.jpg');
+           position: fixed;
+           width: 100vw;
+           height: 100vh;
+           background-attachment: fixed;
+           background-color: rgb(184, 112, 17);
+           z-index: -1;
+           
+           top: 0px;
+           left: 0px;
+           -webkit-filter: blur(5px);
+        
+           -moz-filter:blur(5px);
+
+        }
+        input 
+        {
+               width: 200px;
+               height: 26px;
+               border-radius: 6px;
+               background-color: rgb(46, 53, 66);
+               color:rgb(189, 240, 247);
+               font-weight: bold;
+               font-size: 16px;
+        }
+
+        #dlete
+        {
+            margin-left: 10px;
+            background-color:#F44336;
+            border-radius: 10px;
+            width: 80px;
+            height: 30px;
+            color: #FFFFFF;
+        }
+        
+        #edit
+        {
+            margin-left: 10px;
+            background-color: #E7E7E7;
+            border-radius: 10px;
+            width: 80px;
+            height: 30px;
+            color: #001652;
+        }
+        #submit
+        {
+            margin-left: 10px;
+            background-color:#555555;
+            border-radius: 10px;
+            width: 80px;
+            height: 30px;
+            font-family:sans-serif;
+            font-weight: bolder;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+        h2
+        {
+              color:rgb(34, 33, 33);
+              font-size: 22px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            
+        }
+        .li
+        {
+             color:rgba(255, 217, 0, 0.794);
+             font-size: 20px;
+             font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+             font-weight:bolder;
+        }
+        /* body{
+            /* text-align: center; */
+        /* } */ 
+    </style>
+</head>
+<body>
+    <center>
+        <h2>Wellocme To Todo App</h2>
+    <div>
+        <br><br><br>
+<input type="text" id="input" >
+<button onclick="a()" id="submit">submit</button>
+</div>
+</center>
+<div style="margin-left: 30px;">
+    <ul id="one">
+
+</ul>
+</div>
+<script src="app.js"></script> 
+</body>
+</html>
